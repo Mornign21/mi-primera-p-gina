@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guía completa sobre conceptos fundamentales de informática: Bus de Datos, BIOS y mantenimiento de hardware">
+    <title>Conceptos de Informática - Grupo #6</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* [Los estilos se mantienen igual que en la versión anterior] */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --border-color: #ddd;
+            --box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        article {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .infobox {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: 1rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin: 0.2rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-box {
+            background-color: #cce5ff;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .infobox {
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-left: 4px solid #ffeeba;
+            margin: 1rem 0;
+        }
+
+        .step-list {
+            counter-reset: steps;
+        }
+
+        .step-list li {
+            list-style: none;
+            margin: 1rem 0;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+
+        .step-list li::before {
+            counter-increment: steps;
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--secondary-color);
+            color: white;
+            width: 1.8rem;
+            height: 1.8rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Conceptos de Informática</h1>
+            <nav>
+                <ul>
+                    <li><a href="#bus-datos">Bus de Datos</a></li>
+                    <li><a href="#bios">BIOS</a></li>
+                    <li><a href="#mantenimiento">Mantenimiento</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <article>
+                <section id="bus-datos">
+                    <h2>Bus de Datos</h2>
+                    <div class="highlight">
+                        El bus de datos es la columna vertebral de la comunicación interna en un computador, permitiendo la transferencia de información entre todos sus componentes.
+                    </div>
+
+                    <h3>Conceptos Fundamentales</h3>
+                    <p>El <strong>bus de datos</strong> es un conjunto de líneas de comunicación que permiten la transferencia de datos entre los componentes principales de una computadora. Funciona como una autopista digital por la que viaja la información, permitiendo que la CPU, la memoria y los periféricos intercambien datos de manera coordinada y eficiente.</p>
+
+                    <h3>Tipos de Buses</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Tipo de Bus</th>
+                                <th>Función</th>
+                                <th>Características</th>
+                            </tr>
+                            <tr>
+                                <td>Bus de direcciones</td>
+                                <td>Indica las direcciones de memoria para lectura/escritura</td>
+                                <td>Unidireccional, determina la capacidad de direccionamiento</td>
+                            </tr>
+                            <tr>
+                                <td>Bus de control</td>
+                                <td>Coordina y sincroniza las operaciones</td>
+                                <td>Gestiona señales de lectura/escritura, interrupciones</td>
+                            </tr>
+                            <tr>
+                                <td>Bus de datos</td>
+                                <td>Transporta la información entre componentes</td>
+                                <td>Bidireccional, define el ancho de banda del sistema</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Características Técnicas</h3>
+                    <ul>
+                        <li><strong>Ancho de bus:</strong> Puede ser de 8, 16, 32, 64 o 128 bits, determinando cuántos datos pueden transferirse simultáneamente.</li>
+                        <li><strong>Velocidad de transferencia:</strong> Medida en MHz o GHz, indica cuántos ciclos por segundo puede realizar el bus.</li>
+                        <li><strong>Ancho de banda:</strong> Es el producto del ancho del bus por su velocidad, medido en GB/s.</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <h4>Evolución de los Buses</h4>
+                        <p>Los buses han evolucionado significativamente:</p>
+                        <ul>
+                            <li>ISA: Primer estándar, limitado a 16 bits</li>
+                            <li>PCI: Mejoró la velocidad y capacidad</li>
+                            <li>AGP: Especializado para gráficos</li>
+                            <li>PCI Express: Estándar actual, con velocidades de hasta 64 GB/s</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="bios">
+                    <h2>BIOS (Basic Input/Output System)</h2>
+                    <div class="highlight">
+                        El BIOS es el primer software que se ejecuta al encender el computador, realizando tareas críticas de inicialización y diagnóstico.
+                    </div>
+
+                    <h3>Funciones Principales</h3>
+                    <ol>
+                        <li><strong>POST (Power-On Self-Test):</strong> Verifica el funcionamiento del hardware básico</li>
+                        <li><strong>Bootloader:</strong> Inicia el sistema operativo</li>
+                        <li><strong>Configuración:</strong> Permite ajustar parámetros del hardware</li>
+                        <li><strong>Gestión de energía:</strong> Controla los estados de energía del sistema</li>
+                    </ol>
+
+                    <h3>Evolución: De BIOS a UEFI</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Característica</th>
+                                <th>BIOS Legacy</th>
+                                <th>UEFI Moderno</th>
+                            </tr>
+                            <tr>
+                                <td>Interfaz de usuario</td>
+                                <td>Texto básico</td>
+                                <td>Interfaz gráfica moderna</td>
+                            </tr>
+                            <tr>
+                                <td>Capacidad de disco</td>
+                                <td>Hasta 2.2 TB</td>
+                                <td>Más de 9 ZB</td>
+                            </tr>
+                            <tr>
+                                <td>Velocidad de inicio</td>
+                                <td>Lenta</td>
+                                <td>Significativamente más rápida</td>
+                            </tr>
+                            <tr>
+                                <td>Seguridad</td>
+                                <td>Básica</td>
+                                <td>Secure Boot, cifrado avanzado</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Configuraciones Importantes</h3>
+                    <ul>
+                        <li><strong>Boot Order:</strong> Determina la secuencia de arranque de dispositivos</li>
+                        <li><strong>CPU Settings:</strong> Configuración del procesador y overclock</li>
+                        <li><strong>Memory Settings:</strong> Ajustes de la memoria RAM</li>
+                        <li><strong>Power Management:</strong> Gestión de energía y estado de reposo</li>
+                        <li><strong>Security Settings:</strong> Contraseñas y opciones de seguridad</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>Precauciones al Modificar el BIOS</h4>
+                        <ul>
+                            <li>Realizar copias de seguridad antes de actualizar</li>
+                            <li>No interrumpir el proceso de actualización</li>
+                            <li>Mantener una fuente de energía estable</li>
+                            <li>Documentar los cambios realizados</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="mantenimiento">
+                    <h2>Mantenimiento de Hardware</h2>
+                    <div class="highlight">
+                        El mantenimiento preventivo y correcto del hardware es esencial para garantizar la longevidad y el rendimiento óptimo del sistema.
+                    </div>
+
+                    <h3>Cambio de la Pila de la Placa Base</h3>
+                    <p>La pila CR2032 es crucial para mantener la configuración del BIOS y el reloj en tiempo real (RTC) cuando el equipo está apagado.</p>
+
+                    <div class="info-box">
+                        <h4>Síntomas de Pila Agotada</h4>
+                        <ul>
+                            <li>Pérdida frecuente de fecha y hora</li>
+                            <li>Reseteo de configuraciones del BIOS</li>
+                            <li>Problemas de arranque</li>
+                            <li>Mensajes de error al iniciar</li>
+                        </ul>
+                    </div>
+
+                    <h3>Procedimiento Detallado</h3>
+                    <ol class="step-list">
+                        <li><strong>Preparación:</strong> Apaga completamente el equipo y desconecta todos los cables de alimentación. Espera 5 minutos para que se descarguen los capacitores.</li>
+                        <li><strong>Acceso:</strong> Abre la carcasa del equipo. Identifica la ubicación de la p
